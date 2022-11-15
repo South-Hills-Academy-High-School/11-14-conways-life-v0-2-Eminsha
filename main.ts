@@ -2,6 +2,9 @@ namespace SpriteKind {
     export const cursor = SpriteKind.create()
     export const newCursor = SpriteKind.create()
 }
+function copyright (whichRow: number) {
+    return grid[whichRow][15]
+}
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     cursorGridRow += -1
     cursorY += -10
@@ -23,11 +26,20 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     grid[cursorGridRow][cursorGridCol] = grid[cursorGridRow][cursorGridCol] * -1 + 1
     drawGrid()
 })
+function copytop () {
+    return grid[0]
+}
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     cursorGridCol += -1
     cursorX += -10
     drawGrid()
 })
+function copyBottom () {
+    return grid[11]
+}
+function copyleft (whichRow: number) {
+    return grid[whichRow][0]
+}
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     cursorGridCol += 1
     cursorX += 10
@@ -66,6 +78,15 @@ function drawGrid () {
     neighborCountSprite.left = cursorX
     neighborCountSprite.top = cursorY
     neighborCountSprite.setText(convertToText(CountNeighbors(cursorGridRow, cursorGridCol)))
+}
+function countNeighborsWrapTop (currentRow: number, currentCol: number) {
+    NeighborCount = 0
+    NeighborCount += grid[0 - 0][0 + 1]
+    NeighborCount += grid[0 + 1][0 + 1]
+    NeighborCount += grid[0 + 1][0 + 0]
+    NeighborCount += grid[0 + 1][0 - 1]
+    NeighborCount += grid[0 + 0][0 - 1]
+    return NeighborCount
 }
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     cursorGridRow += 1
